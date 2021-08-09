@@ -1,0 +1,39 @@
+// @Author: WilliamJiangy
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ull = unsigned long long;
+ 
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((int)(x).size())
+#define bug() cout << "######PLEASE_NO_BUG######"
+ 
+void solve() {
+	bitset<600000007> mp;
+	int maxx = 1e8 + 7;
+	for(int i = 2; i < sqrt(maxx); i++) {
+		if(!mp[i]) {
+			for(int j = i * i; j < maxx; j += i) {
+				mp[j] = true;
+			}
+		}
+	}
+	cout << "2\n";
+	int cnt = 1;
+	for(int i = 3; i < maxx; i += 2) {
+		if(!mp[i]) {
+			cnt++;
+			if(cnt % 100 == 1) cout << i << "\n";
+		}
+	}
+}
+ 
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	#ifndef ONLINE_JUDGE
+	freopen("kext.inp", "r", stdin);
+	#endif
+	solve();
+	return 0;
+}  
