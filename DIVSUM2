@@ -1,0 +1,60 @@
+// @Author: WilliamJiangy
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ull = unsigned long long;
+ 
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((int)(x).size())
+#define bug() cout << "######PLEASE_NO_BUG######"
+ 
+void solve() {
+	bitset<200000007> prime;
+	for(ll i = 2; i < sqrt(100000005); i++) {
+		if(!prime[i]) {
+			for(ll j = i * i; j < 100000005; j += i) {
+				prime[j] = 1;
+			}
+		}
+	}
+	vector<ll> pr;
+	pr.push_back(2);
+	for(ll i = 3; i < 100000005; i += 2) {
+		if(!prime[i]) {
+			pr.push_back(i);
+		}
+	}
+	// for(int i = 0; i < 100; i++) cout << pr[i] << " ";
+	function<ll(ll)> sol = [&] (ll n) {
+		ll ans = 1;
+		for(ll i = 0; i < sz(pr) && i * i < n; i++) {
+			if(n % pr[i] == 0) {
+				ll cnt = 0;
+				while(n % pr[i] == 0) {
+					cnt++;
+					n /= pr[i];
+				}
+				ans *= ((pow(pr[i], cnt + 1) - 1) / (pr[i] - 1));
+			}
+		}
+		if(n > 1) ans *= n + 1;
+		return (ll) (ans);
+	};
+	int q;
+	cin >> q;
+	while(q--) {
+		ll n;
+		cin >> n;
+		cout << sol(n) - n << "\n";
+	}
+}
+ 
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	#ifndef ONLINE_JUDGE
+	freopen("kext.inp", "r", stdin);
+	#endif
+	solve();
+	return 0;
+} 
