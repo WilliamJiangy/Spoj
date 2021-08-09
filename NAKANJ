@@ -1,0 +1,72 @@
+// @Author: WilliamJiangy
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ull = unsigned long long;
+ 
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((int)(x).size())
+#define bug() cout << "######PLEASE_NO_BUG######"
+ 
+void solve() {
+	int tc;
+	cin >> tc;
+	while(tc--)	{
+		string a, b;
+		cin >> a >> b;
+		int s1 = a[0] - 'a' + 1;
+		int e1 = a[1] - '1' + 1;
+		int s2 = b[0] - 'a' + 1;
+		int e2 = b[1] - '1' + 1;
+		// cout << s1 << " " << e1 << " " << s2 << " " << e2 << "\n";
+		int dx[] = {-2, -2, -1, 1, 2, 2, -1, 1};
+		int dy[] = {1, -1, -2, -2, 1, -1, 2, 2};
+		int dist[10][10];
+		for(int i = 1; i < 9; i++) {
+			for(int j = 1; j < 9; j++) {
+				dist[i][j] = 1e9 + 7;
+			}
+		}
+		bool visited[10][10];
+		memset(visited, false, sizeof(visited));
+		function<void(int, int)> bfs = [&](int i, int j) {
+			queue<pair<int, int>> q;
+			q.push({i, j});
+			dist[i][j] = 0;
+			visited[i][j] = true;
+			while(q.size()) {
+				int f1 = q.front().first;
+				int f2 = q.front().second;
+				q.pop();
+				for(int k = 0 ; k < 8; k++) {
+					int x = dx[k] + f1;
+					int y = dy[k] + f2;
+					if(x >= 1 && x <= 8 && y >= 1 && y <= 8 && !visited[x][y]) {
+						q.push({x, y});
+						visited[x][y] = true;
+						dist[x][y] = min(dist[x][y], dist[f1][f2] + 1);
+					}
+				}
+			}
+		};
+		bfs(s1, e1);
+		// for(int i = 1; i < 9; i++) {
+		// 	for(int j = 1; j < 9; j++) {
+		// 		cout << dist[i][j] << " ";
+		// 	}
+		// 	cout << "\n";
+		// }
+		// cout << s2 << " " << e2 << "\n";
+		cout << dist[s2][e2] << "\n";
+	}
+}
+ 
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	#ifndef ONLINE_JUDGE
+	freopen("kext.inp", "r", stdin);
+	#endif
+	solve();
+	return 0;
+}  
